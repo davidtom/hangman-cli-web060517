@@ -1,7 +1,7 @@
 class GameController
 
   attr_accessor :name, :status, :correct_guesses, :incorrect_guesses
-  attr_reader :word_object, :gallows, :guess_limit
+  attr_reader :word_object, :gallows_object, :guess_limit
 
   def initialize(num_players)
     #initialize attributes to track game progress
@@ -71,8 +71,8 @@ class GameController
   end
 
   def get_gallows
-    # TODO@gallows = Gallows.new(?custom_gallows_type?)
-    @gallows = {0 => "zero wrong guesses", 1 => "one wrong guess", 2 => "two wrong guesses", 3 => "three wrong guesses"}
+    @gallows_object = Gallows.new(1) #TODO: Make parameter an attribute of the GameController.gallows_option attribute??
+    # @gallows = {0 => "zero wrong guesses", 1 => "one wrong guess", 2 => "two wrong guesses", 3 => "three wrong guesses"}
   end
 
   def print_word_length
@@ -80,7 +80,7 @@ class GameController
   end
 
   def print_gallows(num_incorrect_guesses)
-    puts self.gallows[num_incorrect_guesses]
+    puts self.gallows_object.gallows[num_incorrect_guesses]
   end
 
   def guess_limit_reached?
@@ -120,8 +120,16 @@ class GameController
         puts "The word was #{self.word}!"
         game_over = true
       elsif self.word_guessed?
-        puts "CONGRATULATIONS, YOU WIN!"
-        puts "You correctly guessed that the word was: #{self.word}!"
+        puts <<~heredoc
+        ~~~~~~~~~~~~~~~~~~~~~~~~~
+        CONGRATULATIONS, YOU WIN!
+        ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        "You correctly guessed that the word was: #{self.word}!"
+
+        ------------------------------
+
+        heredoc
         game_over = true
       else
         self.clear_terminal
