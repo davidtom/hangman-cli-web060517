@@ -5,7 +5,9 @@ class Word
   @@library = ["potato", "unicorn", "quixotic", "sweater", "humidity", "mountain", "goldfish", "aquatic", "plebian", "zebra"]
 
   def initialize()
-    @word = self.class.library.sample
+    #Set word instance attribute to be a random word from library, and make it
+    # all lowercase
+    @word = self.class.library.sample.downcase
   end
 
   def self.library
