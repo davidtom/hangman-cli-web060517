@@ -28,12 +28,10 @@ class GameController
 
    # Run game loop
    self.run_game
-
   end
 
   def word
-    # self.word_object.word
-    "unicorn"
+    self.word_object.word
   end
 
   def word_array
@@ -41,12 +39,15 @@ class GameController
   end
 
   def get_guess
+    puts "Please guess a letter:"
     STDIN.gets.chomp.downcase
   end
 
-  def check_guess
-    guess = self.get_guess
-    #TODO: Handle (for real) what happens when someone guesses a letter twice
+  def check_guess(guess)
+    while correct_guesses.include?(guess) || incorrect_guesses.include?(guess)
+      puts "Guess again dumb dumb"
+      guess = self.get_guess
+    end
     if self.word_array.include?(guess)
       self.correct_guesses << guess
     else
@@ -63,6 +64,10 @@ class GameController
         status << " _ "
       end
     end
+  end
+
+  def print_status
+    puts "Status: #{self.status.join}"
   end
 
   def get_gallows
@@ -103,11 +108,11 @@ class GameController
     while !game_over
       self.print_gallows(incorrect_guesses.length)
       self.print_word_length
-      puts "Status: #{self.status}"
+      self.print_status
       puts "Letters guessed: #{self.incorrect_guesses}"
-      puts "correct guesses #{self.correct_guesses}" #NOTE REMOVE AFTER DEBUGGING
-      puts "Please guess a letter:"
-      self.check_guess
+      puts "correct guesses #{self.correct_guesses}"
+      guess = self.get_guess
+      self.check_guess(guess)
       self.update_status
       if self.guess_limit_reached?
         self.print_gallows(incorrect_guesses.length)
@@ -119,7 +124,7 @@ class GameController
         puts "You correctly guessed that the word was: #{self.word}!"
         game_over = true
       else
-        # self.clear_terminal
+        self.clear_terminal
       end
     end
   end
