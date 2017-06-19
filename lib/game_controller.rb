@@ -45,7 +45,7 @@ class GameController
 
   def check_guess(guess)
     while correct_guesses.include?(guess) || incorrect_guesses.include?(guess)
-      puts "Guess again dumb dumb"
+      puts "You've already guessed that letter!"
       guess = self.get_guess
     end
     if self.word_array.include?(guess)
@@ -68,6 +68,10 @@ class GameController
 
   def print_status
     puts "Status: #{self.status.join}"
+  end
+
+  def print_incorrect_guesses
+    puts "Letters guessed: #{self.incorrect_guesses.join(", ")}"
   end
 
   def get_gallows
@@ -109,8 +113,7 @@ class GameController
       self.print_gallows(incorrect_guesses.length)
       self.print_word_length
       self.print_status
-      puts "Letters guessed: #{self.incorrect_guesses}"
-      puts "correct guesses #{self.correct_guesses}"
+      self.print_incorrect_guesses
       guess = self.get_guess
       self.check_guess(guess)
       self.update_status
