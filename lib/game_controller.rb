@@ -1,10 +1,8 @@
 class GameController
-
-  attr_reader :word_object, :gallows_object, :board
+  attr_accessor :game_outcome
+  attr_reader :word_object, :board
 
   def initialize(num_players)
-
-    @gallows = self.get_gallows
 
     #Check game type and create word accordingly
     case num_players
@@ -25,15 +23,6 @@ class GameController
    self.run_game
   end
 
-  def get_gallows
-    @gallows_object = Gallows.new(1) #TODO: Make parameter an attribute of the GameController.gallows_option attribute??
-    # @gallows = {0 => "zero wrong guesses", 1 => "one wrong guess", 2 => "two wrong guesses", 3 => "three wrong guesses"}
-  end
-
-  def print_gallows(num_incorrect_guesses)
-    puts self.gallows_object.gallows[num_incorrect_guesses]
-  end
-
   def clear_terminal
     system "clear"
   end
@@ -44,13 +33,14 @@ class GameController
 
     # Set game status
     game_over = false
+    self.game_outcome = "pending"
 
     # Create initial status
     self.board.update_status
 
     # Run through guessing loop
     while !game_over
-      self.print_gallows(self.board.incorrect_guesses.length)
+      Gallows.print_gallows(self.board.incorrect_guesses.length)
       self.board.print_word_length
       self.board.print_status
       self.board.print_incorrect_guesses
@@ -58,9 +48,10 @@ class GameController
       self.board.check_guess(guess)
       self.board.update_status
       if self.board.guess_limit_reached?
-        self.print_gallows(self.board.incorrect_guesses.length)
-        puts "GAME OVER DUMMY!"
-        puts "The word was #{self.word}!"
+        Gallows.print_gallows(self.board.incorrect_guesses.length)
+        puts "GAME OVER!"
+        puts "The word was #{self.board.word}!"
+        self.game_outcome = "loss"
         game_over = true
       elsif self.board.word_guessed?
         puts <<~heredoc
@@ -73,6 +64,7 @@ class GameController
         ------------------------------
 
         heredoc
+        self.game_outcome = "win"
         game_over = true
       else
         self.clear_terminal

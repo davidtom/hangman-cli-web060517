@@ -1,9 +1,9 @@
 class Gallows
 
-  attr_reader :gallows
-
-  @@gallows1 = {
+  @@gallows = {
     0 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||
@@ -15,6 +15,8 @@ class Gallows
     ------------------
     heredoc
     1 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -26,6 +28,8 @@ class Gallows
     ------------------
     heredoc
     2 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -37,6 +41,8 @@ class Gallows
     ------------------
     heredoc
     3 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -48,6 +54,8 @@ class Gallows
     ------------------
     heredoc
     4 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -59,6 +67,8 @@ class Gallows
     ------------------
     heredoc
     5 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -70,6 +80,8 @@ class Gallows
     ------------------
     heredoc
     6 => <<~heredoc,
+
+    ------------------------------
       ∏∏----------
       ||       |
       ||       O
@@ -82,15 +94,16 @@ class Gallows
     heredoc
   }
 
-  def initialize(type)
-    case type
-    when 1
-      @gallows = @@gallows1
-    when 2
-      @gallows = {} #TODO make another set of gallows frames
-    else
-      puts "someone messed up"
-    end
+  def initialize()
+    #none
+  end
+
+  def self.gallows
+    @@gallows
+  end
+
+  def self.print_gallows(num_incorrect_guesses)
+    puts self.gallows[num_incorrect_guesses]
   end
 
 end
