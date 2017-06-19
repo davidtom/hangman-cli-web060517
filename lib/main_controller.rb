@@ -4,41 +4,61 @@ class MainController
 
   def initialize
     @run_game = true
-  end
-
-  def print_menu_options
-    puts "Please select from the following options"
-  end
-
-  def menu_options
-    {
-      n: ["New Game", self.new_game],
-      s: ["Settings", self.enter_game_settings],
-      l: ["List Commands", self.menu_options],
-      c: ["Credits", self.print_credits],
-      q: ["Quit", self.quit_game]
-    }
+    self.run
   end
 
   def get_command
     STDIN.gets.chomp.downcase
   end
 
-  def run_command(command)
-    while !menu_options.keys.include?(command)
+  def validate_command(command)
+    if !MainScreen.menu_options.keys.include?(command.to_sym)
       puts "Invalid command"
-      self.print_menu_options
+      MainScreen.print_menu_options
+      command = self.get_command
+      validate_command(command)
+    else
+     command
+   end
+  end
+
+  def run_command(command)
+    case command
+    when "n"
+      self.new_game
+    when "s"
+      puts "print_scoreboard from User class" #User.print_scoreboard
+    when "u"
+      puts "print users from User class" #User.print_users
+    # when "o"
+    #   puts "enter options" #Options.menu?, #NOTE ??
+    when "c"
+      MainScreen.print_credits
+    when "q"
+      self.quit_game
+    else
+      puts "someone messed up!"
     end
-    menu_options[command][1]
   end
 
   def new_game
-
+    puts "new game!"
+    #user = User.find_or_create_by_name
+    #user.new_game(GameController.new(user)) #NOTE Reconfigure GameController.new() to count number of users passed in; this currently only allows one player at the moment, but should be exandable relatively easily through if/else
   end
 
   def quit_game
-    puts "Thank you for playing Hangman"
+    MainScreen.exit_screen
     self.run_game = false
+  end
+
+  def run
+    while self.run_game
+      MainScreen.print_title_screen
+      MainScreen.print_menu_options
+      command = get_command
+      run_command(validate_command(command))
+    end
   end
 
 end
