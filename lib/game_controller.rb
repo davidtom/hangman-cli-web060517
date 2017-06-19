@@ -23,9 +23,6 @@ class GameController
      puts "someone screwed up"
    end
 
-   # Fill in status with blanks for letters in word
-   self.update_status
-
    # Run game loop
    self.run_game
   end
@@ -38,23 +35,14 @@ class GameController
     self.word.split("")
   end
 
-  def get_guess
-    puts "Please guess a letter:"
-    STDIN.gets.chomp.downcase
-  end
-
-  def valid_letter?(guess)
-    ("a".."z").to_a.include?(guess)
-  end
-
   def check_guess(guess)
-    while !valid_letter?(guess)
+    while !Guess.valid_letter?(guess)
       puts "That is not a letter!"
-      guess = self.get_guess
+      guess = Guess.get_guess
     end
     while correct_guesses.include?(guess) || incorrect_guesses.include?(guess)
       puts "You've already guessed that letter!"
-      guess = self.get_guess
+      guess = Guess.get_guess
     end
     if self.word_array.include?(guess)
       self.correct_guesses << guess
@@ -116,13 +104,16 @@ class GameController
     # Set game status
     game_over = false
 
+    # Create initial status
+    self.update_status
+
     # Run through guessing loop
     while !game_over
       self.print_gallows(incorrect_guesses.length)
       self.print_word_length
       self.print_status
       self.print_incorrect_guesses
-      guess = self.get_guess
+      guess = Guess.get_guess
       self.check_guess(guess)
       self.update_status
       if self.guess_limit_reached?
