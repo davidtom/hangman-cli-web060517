@@ -43,7 +43,15 @@ class GameController
     STDIN.gets.chomp.downcase
   end
 
+  def valid_letter?(guess)
+    ("a".."z").to_a.include?(guess)
+  end
+
   def check_guess(guess)
+    while !valid_letter?(guess)
+      puts "That is not a letter!"
+      guess = self.get_guess
+    end
     while correct_guesses.include?(guess) || incorrect_guesses.include?(guess)
       puts "You've already guessed that letter!"
       guess = self.get_guess
