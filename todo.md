@@ -1,4 +1,3 @@
-- Prevent users from guessing spaces, numbers, or special characters
 - Update game over/win window: clear terminal window, but reprint
   the word length, and letters guessed
 - Create/incorporate user object
