@@ -1,19 +1,17 @@
 class GameController
   attr_accessor :game_outcome
-  attr_reader :word_object, :board
+  attr_reader :word_object, :board, :user1
 
-  def initialize(num_players) #TODO I think initialize should take an instance of user. Therefore: we need a user attribute. Also need a method to update the users record after a game
-
-    #Check game type and create word accordingly
-    case num_players
-    when 1
+  def initialize(user1, user2 = nil) #TODO I think initialize should take an instance of user. Therefore: we need a user attribute. Also need a method to update the users record after a game
+    @user1 = user1
+    #Check number of players and create word accordingly
+    if !user2
       @word_object = Word.new
-    when 2
-      ## TODO GET WORD FROM SECOND PLAYER
-    when 3
-      ## TODO HEAD TO HEAD MODE
+      self.user1.games << self
+    elsif user2
+      #act accordingly :TODO complete this code if there is time
     else
-     puts "someone screwed up"
+      raise ArgumentError.new("Something is wrong users for a new game!")
    end
 
    # Create a new board instance and give it: instance of self, word object
@@ -34,7 +32,7 @@ class GameController
     ans = STDIN.gets.chomp.downcase.strip
     case ans
     when "y"
-      GameController.new(1)
+      GameController.new(self.user1)
     when "n"
       #nothing! go back to MainController loop
     end
@@ -77,5 +75,4 @@ class GameController
     end
     self.new_game? #TODO decide if this is an instance method or a class method
   end
-  #TODO: create method to ask user to start a new game or not? yes -> new game_controller instance; n -> return to main menu. Does this belong at bottom of run_game??
 end

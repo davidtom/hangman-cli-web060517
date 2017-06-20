@@ -29,7 +29,7 @@ class MainController
     when "s"
       puts "print_scoreboard from User class" #User.print_scoreboard
     when "u"
-      puts "print users from User class" #User.print_users
+      User.print_users
     # when "o"
     #   puts "enter options" #Options.menu?, #NOTE ??
     when "c"
@@ -42,9 +42,22 @@ class MainController
   end
 
   def new_game
-    GameController.new(1)
-    #user = User.find_or_create_by_name
-    #user.new_game(GameController.new(user)) #NOTE Reconfigure GameController.new() to count number of users passed in; this currently only allows one player at the moment, but should be exandable relatively easily through if/else
+    # GameController.new(1)
+    puts "Please enter user name:"
+    name = gets.chomp
+    user = User.find_by_name(name)
+    if user.any?
+      puts "Starting new game as existing user: #{user[0].name}"
+      gets
+      GameController.new(user[0])
+    else
+      puts "Starting new game as new user: #{name}"
+      gets
+      GameController.new(User.new(name))
+    end
+    ### user
+    ###user = User.find_or_create_by_name
+    ###user.new_game(GameController.new(user)) #NOTE Reconfigure GameController.new() to count number of users passed in; this currently only allows one player at the moment, but should be exandable relatively easily through if/else
   end
 
   def quit_game

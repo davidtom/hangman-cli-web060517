@@ -9,8 +9,8 @@ class MainScreen
   def self.menu_options
     {
       n: "New Game",
-      s: "Scoreboad",
       u: "Users",
+      s: "Scoreboad",
       # o: "Options",
       c: "Credits",
       q: "Quit"
