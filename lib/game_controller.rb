@@ -2,7 +2,7 @@ class GameController
   attr_accessor :game_outcome
   attr_reader :word_object, :board
 
-  def initialize(num_players)
+  def initialize(num_players) #TODO I think initialize should take an instance of user. Therefore: we need a user attribute. Also need a method to update the users record after a game
 
     #Check game type and create word accordingly
     case num_players
