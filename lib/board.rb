@@ -46,6 +46,10 @@ class Board
     end
   end
 
+  def num_incorrect_guesses
+    self.incorrect_guesses.length
+  end
+
   def print_status
     puts "Status: #{self.status.join}"
   end

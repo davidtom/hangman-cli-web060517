@@ -27,6 +27,19 @@ class GameController
     system "clear"
   end
 
+  def new_game?
+    puts "Would you like to start a new game?"
+    puts "\t Enter <y> to start new game"
+    puts "\t Enter <n> to return to main menu"
+    ans = STDIN.gets.chomp.downcase.strip
+    case ans
+    when "y"
+      GameController.new(1)
+    when "n"
+      #nothing! go back to MainController loop
+    end
+  end
+
   def run_game
     # Print initial welcome messages to terminal
     self.clear_terminal
@@ -40,7 +53,7 @@ class GameController
 
     # Run through guessing loop
     while !game_over
-      Gallows.print_gallows(self.board.incorrect_guesses.length)
+      Gallows.print_gallows(self.board.num_incorrect_guesses)
       self.board.print_word_length
       self.board.print_status
       self.board.print_incorrect_guesses
@@ -48,28 +61,18 @@ class GameController
       self.board.check_guess(guess)
       self.board.update_status
       if self.board.guess_limit_reached?
-        Gallows.print_gallows(self.board.incorrect_guesses.length)
-        puts "GAME OVER!"
-        puts "The word was #{self.board.word}!"
+        ResultScreen.print_loss_screen(self.board.num_incorrect_guesses, self.board.word) #TODO NOTE refactor this ugly thing into a method
         self.game_outcome = "loss"
         game_over = true
       elsif self.board.word_guessed?
-        puts <<~heredoc
-        ~~~~~~~~~~~~~~~~~~~~~~~~~
-        CONGRATULATIONS, YOU WIN!
-        ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        "You correctly guessed that the word was: #{self.board.word}!"
-
-        ------------------------------
-
-        heredoc
+        ResultScreen.print_win_screen(self.board.word)
         self.game_outcome = "win"
         game_over = true
       else
         self.clear_terminal
       end
     end
+    self.new_game? #TODO decide if this is an instance method or a class method
   end
   #TODO: create method to ask user to start a new game or not? yes -> new game_controller instance; n -> return to main menu. Does this belong at bottom of run_game??
 end

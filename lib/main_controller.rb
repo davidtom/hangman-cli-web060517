@@ -42,7 +42,7 @@ class MainController
   end
 
   def new_game
-    puts "new game!"
+    GameController.new(1)
     #user = User.find_or_create_by_name
     #user.new_game(GameController.new(user)) #NOTE Reconfigure GameController.new() to count number of users passed in; this currently only allows one player at the moment, but should be exandable relatively easily through if/else
   end

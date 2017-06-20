@@ -20,5 +20,5 @@ class Guess
       guess = self.get_guess
     end
   end
-  
+
 end
