@@ -3,6 +3,12 @@
 **-MAKE README FILE!!!**
 **-MAKE README FILE!!!**
 
+- In order to be able to reload games, we will need to utilize the following
+code structure when dealing with instances of classes:
+      def board
+        @board ||= Board.new(self)
+      end
+
 - Create User Object with following specifications
   - Users initialize with a name
   - All users are stored by the User class

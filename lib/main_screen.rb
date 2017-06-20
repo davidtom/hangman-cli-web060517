@@ -36,6 +36,10 @@ class MainScreen
     heredoc
   end
 
+  def self.print_hangman_image
+    puts self.hangman_image
+  end
+
   def self.print_title_screen
     system "clear"
     puts self.hangman_image
@@ -66,7 +70,9 @@ class MainScreen
     system "clear"
     puts self.hangman_image
     puts "Thank you for playing Hangman!"
+    puts "<enter to complete exit>"
     gets
+    system "clear"
   end
 
 end

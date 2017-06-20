@@ -41,7 +41,7 @@ class GameController
   end
 
   def run_game
-    # Print initial welcome messages to terminal
+    # Clear previous actions on terminal screen
     self.clear_terminal
 
     # Set game status
@@ -53,6 +53,7 @@ class GameController
 
     # Run through guessing loop
     while !game_over
+      MainScreen.print_hangman_image
       Gallows.print_gallows(self.board.num_incorrect_guesses)
       self.board.print_word_length
       self.board.print_status
@@ -61,6 +62,8 @@ class GameController
       self.board.check_guess(guess)
       self.board.update_status
       if self.board.guess_limit_reached?
+        self.clear_terminal
+        MainScreen.print_hangman_image
         ResultScreen.print_loss_screen(self.board.num_incorrect_guesses, self.board.word) #TODO NOTE refactor this ugly thing into a method
         self.game_outcome = "loss"
         game_over = true
