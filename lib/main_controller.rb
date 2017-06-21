@@ -27,7 +27,7 @@ class MainController
     when "n"
       self.new_game
     when "s"
-      puts "print_scoreboard from User class" #User.print_scoreboard
+      User.print_scoreboard
     when "u"
       User.print_users
     # when "o"
@@ -48,10 +48,12 @@ class MainController
     user = User.find_by_name(name)
     if user.any?
       puts "Starting new game as existing user: #{user[0].name}"
+      puts "Press <enter> to continue to game"
       gets
       GameController.new(user[0])
     else
       puts "Starting new game as new user: #{name}"
+      puts "Press <enter> to continue to game"
       gets
       GameController.new(User.new(name))
     end

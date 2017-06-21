@@ -73,6 +73,7 @@ class GameController
         self.clear_terminal
       end
     end
+    user1.update_record(self.game_outcome)
     self.new_game? #TODO decide if this is an instance method or a class method
   end
 end
