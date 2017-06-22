@@ -58,10 +58,10 @@ class User
   def self.sort_user_records
     #sort in descending order by losses
     desc_losses = self.user_records.sort_by do |user, wins_losses|
-      wins_losses[:losses] * -1
+      wins_losses[:losses]
     end
     sorted_records = desc_losses.sort_by do |user, wins_losses|
-      wins_losses[:wins]
+      wins_losses[:wins] * -1
     end
     sorted_records
   end
