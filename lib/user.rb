@@ -9,8 +9,6 @@ class User
     @games = []
     @record = {wins: 0, losses: 0}
     self.class.all << self
-    # ###TESTING
-    # @fga = ["pending", "pending", "pending", "loss", "loss", "loss", "win", "win", "win"]
   end
 
   def self.all
@@ -29,8 +27,12 @@ class User
     #self.users returns name strings only
     puts "Current Users:"
     puts "\n"
-    self.users.each_with_index do |name, idx|
+    if self.users.length == 0
+      puts "<There are no saved users>"
+    else
+      self.users.each_with_index do |name, idx|
       puts "  #{idx + 1}. #{name}"
+      end
     end
     puts "\n<enter to return to main screen>"
     gets
@@ -54,82 +56,31 @@ class User
   end
 
   def self.sort_user_records
-
+    #sort in descending order by losses
+    desc_losses = self.user_records.sort_by do |user, wins_losses|
+      wins_losses[:losses] * -1
+    end
+    sorted_records = desc_losses.sort_by do |user, wins_losses|
+      wins_losses[:wins]
+    end
+    sorted_records
   end
 
   def self.print_scoreboard
-    puts self.user_records #TODO update this
+    puts "\nScoreboard:"
+    puts "-----------------------------------"
+    if self.users.length == 0
+      puts "<There are no user records>"
+    else
+      place = 1
+      printf "    %-20s %s %s\n", "User", "Wins", "Losses"
+      self.sort_user_records.each do |user, wins_losses|
+        printf "#{place}. %-20s  %s     %s\n", user, wins_losses[:wins], wins_losses[:losses]
+        place += 1
+      end
+    end
+    puts "\n<enter to return to main screen>"
     gets
   end
-
-  # def self.get_user_records
-  #   user_records = {
-  #     win: 0,
-  #     loss: 0
-  #   }
-  #   #
-  #   self.all.collect do |user|
-  #     user.
-  #   end
-  #
-  #  @fga.each_with_object(users_record) do |result, record|
-  #   case result
-  #    when "win"
-  #      record[:win] += 1
-  #    when "pending"
-  #      record[:pending] += 1
-  #    when "loss"
-  #       record[:loss] += 1
-  #    else
-  #      puts "something went wrong"
-  #    end
-  #  end
-  # end
-
-
-
-
-
-
-
-
-
-
-  # def self.find_or_create_by_name(name)
-  #   name_match = self.all.select do |object|
-  #     object.name == name
-  #   end
-  #   if name_match.length > 0
-  #     puts "already used that bruh"
-  #   else
-  #     User.new(name)
-  #   end
-  # end
-
-  # NOTE: rethought this: users don't create games, game controller does
-  # def new_game
-  #   @game_array << GameController.new(1)
-  # end
-
-  # def record
-  #   users_record = {
-  #     win: 0,
-  #     loss: 0,
-  #     pending: 0
-  #   }
-  #
-  #  @fga.each_with_object(users_record) do |result, record|
-  #   case result
-  #    when "win"
-  #      record[:win] += 1
-  #    when "pending"
-  #      record[:pending] += 1
-  #    when "loss"
-  #       record[:loss] += 1
-  #    else
-  #      puts "something went wrong"
-  #    end
-  #  end
-  # end
 
 end

@@ -2,14 +2,14 @@ class GameController
   attr_accessor :game_outcome
   attr_reader :word_object, :board, :user1
 
-  def initialize(user1, user2 = nil) #TODO I think initialize should take an instance of user. Therefore: we need a user attribute. Also need a method to update the users record after a game
+  def initialize(user1, user2 = nil)
     @user1 = user1
     #Check number of players and create word accordingly
     if !user2
       @word_object = Word.new
       self.user1.games << self
     elsif user2
-      #act accordingly :TODO complete this code if there is time
+      ##TODO: add 2 player functionality later
     else
       raise ArgumentError.new("Something is wrong users for a new game!")
    end
@@ -62,7 +62,7 @@ class GameController
       if self.board.guess_limit_reached?
         self.clear_terminal
         MainScreen.print_hangman_image
-        ResultScreen.print_loss_screen(self.board.num_incorrect_guesses, self.board.word) #TODO NOTE refactor this ugly thing into a method
+        ResultScreen.print_loss_screen(self.board.num_incorrect_guesses, self.board.word)
         self.game_outcome = "loss"
         game_over = true
       elsif self.board.word_guessed?
@@ -74,6 +74,6 @@ class GameController
       end
     end
     user1.update_record(self.game_outcome)
-    self.new_game? #TODO decide if this is an instance method or a class method
+    self.new_game?
   end
 end

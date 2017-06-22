@@ -1,0 +1,2 @@
+#!/bin/bash
+sh ruby ./bin/run

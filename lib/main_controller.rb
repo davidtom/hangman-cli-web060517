@@ -27,11 +27,10 @@ class MainController
     when "n"
       self.new_game
     when "s"
+      # User.print_scoreboard
       User.print_scoreboard
     when "u"
       User.print_users
-    # when "o"
-    #   puts "enter options" #Options.menu?, #NOTE ??
     when "c"
       MainScreen.print_credits
     when "q"
